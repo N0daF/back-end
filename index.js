@@ -76,7 +76,7 @@ const init = async () => {
       path: '/api/movie/search',
       config: {
           cors: {
-              origin: ['http://localhost:3001'],
+              origin: ['http://lab6.se-rmutl.net'],
               additionalHeaders: ['cache-control', 'x-requested-width']
           }
       },
