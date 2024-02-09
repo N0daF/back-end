@@ -77,7 +77,7 @@ method: "GET",
           }
       },
       handler: async function (request, reply) {
-          //var param = request.query;
+         //var param = request.query;
           //const category_code = param.category_code;
 
           try {
