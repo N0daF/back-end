@@ -68,7 +68,7 @@ method: "GET",
     //API: http://localhost:3001/api/movie/all
     server.route({
       method: 'GET',
-      path: '/api/movie/all',
+      path: 'https://lab6.se-rmutl.net/api/movie/all',
       config: {
           cors: {
               origin: ['*'],
@@ -98,7 +98,7 @@ method: "GET",
 
     server.route({
       method: 'GET',
-      path: '/api/movie/search',
+      path: 'https://lab6.se-rmutl.net/api/movie/search',
       config: {
           cors: {
               origin: ['*'],
@@ -130,7 +130,7 @@ method: "GET",
 
   server.route({
     method: 'POST',
-    path: '/api/movie/insert',
+    path: 'https://lab6.se-rmutl.net/api/movie/insert',
     config: {
         payload: {
             multipart: true,
