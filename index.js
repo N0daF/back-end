@@ -1,7 +1,7 @@
 const hapi = require('@hapi/hapi');
 const env = require('./env.js');
 const Movies = require('./respository/movie');
-
+const AuthBearer = require('hapi-auth-bearer-token');
 const express = require('express');
 const app = express();
 
@@ -31,10 +31,34 @@ const init = async () => {
   //---------
 
   await server.register(require('@hapi/inert'));
+  await server.register(AuthBearer);
+  server.auth.strategy('simple', 'bearer-access-token', {
+          allowQueryToken: true,              // optional, false by default
+          validate: async (request, token, h) => {
+  
+              // here is where you validate your token
+              // comparing with token from your database for example
+              const isValid = token === '1234567890'
+  
+              const credentials = { token };
+              const artifacts = { test: 'info' };
+  
+              return { isValid, credentials, artifacts };
+          }
+      });
+  
+  server.auth.default('simple');
 
   server.route({
-    method: "GET",
+method: "GET",
     path: "/",
+    config: {
+      cors: {
+          origin: ['*'],
+          additionalHeaders: ['cache-control', 'x-requested-width'],
+          credentials: true
+      }
+  },
     handler: () => {
       return '<h3> Welcome to API Back-end Ver. 1.0.0</h3>';
     }
@@ -48,7 +72,8 @@ const init = async () => {
       config: {
           cors: {
               origin: ['*'],
-              additionalHeaders: ['cache-control', 'x-requested-width']
+              additionalHeaders: ['cache-control', 'x-requested-width'],
+              credentials: true
           }
       },
       handler: async function (request, reply) {
@@ -76,8 +101,9 @@ const init = async () => {
       path: '/api/movie/search',
       config: {
           cors: {
-              origin: ['http://api.se-rmutl.net/'],
-              additionalHeaders: ['cache-control', 'x-requested-width']
+              origin: ['*'],
+              additionalHeaders: ['cache-control', 'x-requested-width'],
+              credentials: true
           }
       },
       handler: async function (request, reply) {
@@ -111,7 +137,8 @@ const init = async () => {
         },
         cors: {
             origin: ['*'],
-            additionalHeaders: ['cache-control', 'x-requested-width']
+            additionalHeaders: ['cache-control', 'x-requested-width'],
+            credentials: true
         }
     },
     handler: async function (request, reply) {
